@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+/* >>
+import "google/api/annotations.proto";
+<< */
+
+
+package ProductApi;
+
+message ProductItemRequest {
+	string declination = 1;
+	string reference = 2;
+}
+
+message ProductItemsRequest {
+	string declination = 1;
+	repeated string references = 2;
+}
+
+message ProductItemResponse {
+	string reference = 1;
+    int32 order = 2;
+    bool is_bio = 3;
+}
+
+message ProductItemsResponse {
+	repeated ProductItemResponse data = 1;
+}
+
+service Product {
+  rpc GetProductByDeclinationAndReference (ProductItemRequest) returns (ProductItemResponse) {
+   /* >>
+  	option (google.api.http) = {
+        get: "/api/v1/product/items/{declination}/{reference}"
+      };
+	<< */
+	}
+  rpc GetProductsByDeclinationAndReferences (ProductItemsRequest) returns (ProductItemsResponse) {}
+}

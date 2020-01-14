@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  sqldata:
+    image: postgres
+
+  grpc-api:
+    image: ${DOCKER_REGISTRY-grpcapi
+    build:
+      context: .
+      dockerfile: Server/Dockerfile
+    depends_on:
+      - sqldata

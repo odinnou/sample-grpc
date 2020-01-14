@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  sqldata:
+    image: postgres
+    restart: always
+    environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=docker
+    ports:
+      - "5432:5432"
+    volumes:
+      - grpc-sqldata:/var/lib/postgresql/data
+
+  grpc-api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=remi
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+    ports:
+      - "6201:80"
+      - "8201:81"
+
+volumes:
+  grpc-sqldata:
+    external: true
