@@ -1,5 +1,6 @@
 using AutoMapper;
 using Grpc.Core;
+using Microsoft.Extensions.Logging;
 using Server.Infrastructure.Exceptions;
 using Server.UseCases.Interfaces;
 using System;
@@ -14,11 +15,13 @@ namespace Server.Grpc
     {
         private readonly IMapper mapper;
         private readonly IProductFetcher iProductFetcher;
+        private readonly ILogger<ProductService> iLogger;
 
-        public ProductService(IMapper mapper, IProductFetcher iProductFetcher)
+        public ProductService(IMapper mapper, IProductFetcher iProductFetcher, ILogger<ProductService> iLogger)
         {
             this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.iProductFetcher = iProductFetcher ?? throw new ArgumentNullException(nameof(iProductFetcher));
+            this.iLogger = iLogger ?? throw new ArgumentNullException(nameof(iLogger));
         }
 
         public override async Task<ProductItemResponse?> GetProductByDeclinationAndReference(ProductItemRequest request, ServerCallContext context)
@@ -62,6 +65,8 @@ namespace Server.Grpc
 
                 while (!context.CancellationToken.IsCancellationRequested && productsEnumerator.MoveNext())
                 {
+                    iLogger.LogDebug($"Transmit product over stream, reference : {productsEnumerator.Current.Reference}");
+
                     await responseStream.WriteAsync(mapper.Map<ProductItemResponse>(productsEnumerator.Current));
                 }
             }
