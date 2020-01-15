@@ -1,25 +1,20 @@
 using AutoMapper;
-using Common.API.Configuration;
-using Common.API.Documentation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Product.API.Configuration;
-using Product.API.Grpc;
-using Product.API.Infrastructure;
-using Product.API.Infrastructure.Filters;
-using System;
+using Server.Configuration;
+using Server.Controllers;
+using Server.Documentation;
+using Server.Infrastructure;
+using Server.Infrastructure.Filters;
 using System.Reflection;
 
-namespace Product.API
+namespace Server
 {
     public class Startup
     {
-        public const string TEST_ENVIRONMENT = "test";
-
         public Startup(IConfiguration configuration, IWebHostEnvironment appEnv)
         {
             Configuration = configuration;
@@ -31,10 +26,10 @@ namespace Product.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<ProductApiSettings>(Configuration.GetSection(nameof(ProductApiSettings)));
+            services.Configure<AppSettings>(Configuration.GetSection(nameof(AppSettings)));
 
-            ProductApiSettings recipeApiSettings = new ProductApiSettings();
-            Configuration.GetSection(nameof(ProductApiSettings)).Bind(recipeApiSettings);
+            AppSettings appSettings = new AppSettings();
+            Configuration.GetSection(nameof(AppSettings)).Bind(appSettings);
 
             services.AddGrpc();
             services.AddCors();
@@ -47,26 +42,21 @@ namespace Product.API
             services.AddAutoMapper(Assembly.Load(typeof(Startup).Assembly.GetName().Name!));
             services.AddSwagger("1.0.0");
             services.AddHealthChecks();
-            services.AddDependencies(recipeApiSettings);
+            services.AddDependencies(appSettings);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IOptions<ProductApiSettings> settingsOptionsRecipe, IWebHostEnvironment webHostEnvironment, IMapper mapper)
+        public void Configure(IApplicationBuilder app, IMapper mapper)
         {
-            ProductApiSettings recipeApiSettings = settingsOptionsRecipe.Value;
-
             mapper.ConfigurationProvider.AssertConfigurationIsValid();
 
-            InitializeDatabase(app, webHostEnvironment);
+            InitializeDatabase(app);
 
-            if (recipeApiSettings.EnableSwagger)
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwaggerConfig("1.0.0");
-            }
+            app.UseDeveloperExceptionPage();
+            app.UseSwaggerConfig("1.0.0");
 
             app.UseRouting();
             app.UseCors(builder =>
-                    builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().WithExposedHeaders(CommonController.TOTAL_COUNT_HEADER));
+                    builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin().WithExposedHeaders(ProductController.TOTAL_COUNT_HEADER));
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -79,13 +69,10 @@ namespace Product.API
             });
         }
 
-        private void InitializeDatabase(IApplicationBuilder app, IWebHostEnvironment webHostEnvironment)
+        private void InitializeDatabase(IApplicationBuilder app)
         {
-            if (!TEST_ENVIRONMENT.Equals(webHostEnvironment.EnvironmentName, StringComparison.OrdinalIgnoreCase))
-            {
-                using IServiceScope serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
-                serviceScope.ServiceProvider.GetRequiredService<ProductContext>().Database.Migrate();
-            }
+            using IServiceScope serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
+            serviceScope.ServiceProvider.GetRequiredService<ProductContext>().Database.Migrate();
         }
     }
 }

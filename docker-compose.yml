@@ -5,7 +5,7 @@ services:
     image: postgres
 
   grpc-api:
-    image: ${DOCKER_REGISTRY-grpcapi
+    image: ${DOCKER_REGISTRY-}grpcapi
     build:
       context: .
       dockerfile: Server/Dockerfile
