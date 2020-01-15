@@ -1,7 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Server.Dtos.Product;
-using Server.Services.Interfaces;
+using Server.UseCases.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Net.Mime;
@@ -21,7 +21,7 @@ namespace Server.Controllers
         public ProductController(IMapper mapper, IProductFetcher iProductFetcher, IMapper iMapper)
         {
             this.iProductFetcher = iProductFetcher ?? throw new ArgumentNullException(nameof(iProductFetcher));
-            this.iMapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            this.iMapper = iMapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [HttpGet("{declination}/{reference}")]

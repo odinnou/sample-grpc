@@ -1,5 +1,4 @@
 using AutoMapper;
-using ProductApi;
 
 namespace Server.Dtos.Product
 {

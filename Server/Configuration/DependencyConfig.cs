@@ -3,8 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Server.Infrastructure;
 using Server.Repositories;
 using Server.Repositories.Interfaces;
-using Server.Services;
-using Server.Services.Interfaces;
+using Server.UseCases;
+using Server.UseCases.Interfaces;
 
 namespace Server.Configuration
 {

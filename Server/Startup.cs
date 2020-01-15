@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Server.Configuration;
 using Server.Controllers;
 using Server.Documentation;
+using Server.Grpc;
 using Server.Infrastructure;
 using Server.Infrastructure.Filters;
 using System.Reflection;

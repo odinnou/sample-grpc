@@ -1,11 +1,11 @@
 using Server.Infrastructure.Exceptions;
 using Server.Repositories.Interfaces;
-using Server.Services.Interfaces;
+using Server.UseCases.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Server.Services
+namespace Server.UseCases
 {
     public class ProductFetcher : IProductFetcher
     {

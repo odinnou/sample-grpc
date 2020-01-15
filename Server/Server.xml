@@ -19,43 +19,61 @@
             Code de l'erreur
             </summary>
         </member>
-        <member name="T:ProductApi.ProductReflection">
+        <member name="T:Server.ProductReflection">
             <summary>Holder for reflection information generated from Protos/product.proto</summary>
         </member>
-        <member name="P:ProductApi.ProductReflection.Descriptor">
+        <member name="P:Server.ProductReflection.Descriptor">
             <summary>File descriptor for Protos/product.proto</summary>
         </member>
-        <member name="F:ProductApi.ProductItemRequest.DeclinationFieldNumber">
+        <member name="F:Server.ProductItemRequest.DeclinationFieldNumber">
             <summary>Field number for the "declination" field.</summary>
         </member>
-        <member name="F:ProductApi.ProductItemRequest.ReferenceFieldNumber">
+        <member name="F:Server.ProductItemRequest.ReferenceFieldNumber">
             <summary>Field number for the "reference" field.</summary>
         </member>
-        <member name="F:ProductApi.ProductItemsRequest.DeclinationFieldNumber">
-            <summary>Field number for the "declination" field.</summary>
-        </member>
-        <member name="F:ProductApi.ProductItemsRequest.ReferencesFieldNumber">
-            <summary>Field number for the "references" field.</summary>
-        </member>
-        <member name="F:ProductApi.ProductItemResponse.ReferenceFieldNumber">
+        <member name="F:Server.ProductItemResponse.ReferenceFieldNumber">
             <summary>Field number for the "reference" field.</summary>
         </member>
-        <member name="F:ProductApi.ProductItemResponse.OrderFieldNumber">
+        <member name="F:Server.ProductItemResponse.OrderFieldNumber">
             <summary>Field number for the "order" field.</summary>
         </member>
-        <member name="F:ProductApi.ProductItemResponse.IsBioFieldNumber">
+        <member name="F:Server.ProductItemResponse.IsBioFieldNumber">
             <summary>Field number for the "is_bio" field.</summary>
         </member>
-        <member name="F:ProductApi.ProductItemsResponse.DataFieldNumber">
+        <member name="F:Server.PaginedProductItemsRequest.DeclinationFieldNumber">
+            <summary>Field number for the "declination" field.</summary>
+        </member>
+        <member name="F:Server.PaginedProductItemsRequest.PageIndexFieldNumber">
+            <summary>Field number for the "pageIndex" field.</summary>
+        </member>
+        <member name="F:Server.PaginedProductItemsRequest.PageSizeFieldNumber">
+            <summary>Field number for the "pageSize" field.</summary>
+        </member>
+        <member name="F:Server.PaginedProductItemsResponse.DataFieldNumber">
             <summary>Field number for the "data" field.</summary>
         </member>
-        <member name="P:ProductApi.Product.Descriptor">
+        <member name="F:Server.PaginedProductItemsResponse.PageIndexFieldNumber">
+            <summary>Field number for the "pageIndex" field.</summary>
+        </member>
+        <member name="F:Server.PaginedProductItemsResponse.PageSizeFieldNumber">
+            <summary>Field number for the "pageSize" field.</summary>
+        </member>
+        <member name="F:Server.PaginedProductItemsResponse.TotalFieldNumber">
+            <summary>Field number for the "total" field.</summary>
+        </member>
+        <member name="F:Server.StreamedProductItemsRequest.DeclinationFieldNumber">
+            <summary>Field number for the "declination" field.</summary>
+        </member>
+        <member name="F:Server.StreamedProductItemsRequest.ReferencesFieldNumber">
+            <summary>Field number for the "references" field.</summary>
+        </member>
+        <member name="P:Server.Product.Descriptor">
             <summary>Service descriptor</summary>
         </member>
-        <member name="T:ProductApi.Product.ProductBase">
+        <member name="T:Server.Product.ProductBase">
             <summary>Base class for server-side implementations of Product</summary>
         </member>
-        <member name="M:ProductApi.Product.ProductBase.GetProductByDeclinationAndReference(ProductApi.ProductItemRequest,Grpc.Core.ServerCallContext)">
+        <member name="M:Server.Product.ProductBase.GetProductByDeclinationAndReference(Server.ProductItemRequest,Grpc.Core.ServerCallContext)">
              <summary>
              >>
             option (google.api.http) = {
@@ -67,11 +85,11 @@
              <param name="context">The context of the server-side call handler being invoked.</param>
              <returns>The response to send back to the client (wrapped by a task).</returns>
         </member>
-        <member name="M:ProductApi.Product.BindService(ProductApi.Product.ProductBase)">
+        <member name="M:Server.Product.BindService(Server.Product.ProductBase)">
             <summary>Creates service definition that can be registered with a server</summary>
             <param name="serviceImpl">An object implementing the server-side handling logic.</param>
         </member>
-        <member name="M:ProductApi.Product.BindService(Grpc.Core.ServiceBinderBase,ProductApi.Product.ProductBase)">
+        <member name="M:Server.Product.BindService(Grpc.Core.ServiceBinderBase,Server.Product.ProductBase)">
             <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
             Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
             <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>

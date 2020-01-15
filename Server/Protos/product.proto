@@ -12,19 +12,28 @@ message ProductItemRequest {
 	string reference = 2;
 }
 
-message ProductItemsRequest {
-	string declination = 1;
-	repeated string references = 2;
-}
-
 message ProductItemResponse {
 	string reference = 1;
     int32 order = 2;
     bool is_bio = 3;
 }
 
-message ProductItemsResponse {
+message PaginedProductItemsRequest {
+	string declination = 1;
+    int32 pageIndex=2;
+    int32 pageSize=3;
+}
+
+message PaginedProductItemsResponse {
 	repeated ProductItemResponse data = 1;
+    int32 pageIndex=2;
+    int32 pageSize=3;
+    int32 total=4;
+}
+
+message StreamedProductItemsRequest {
+	string declination = 1;
+	repeated string references = 2;
 }
 
 service Product {
@@ -35,7 +44,7 @@ service Product {
       };
 	<< */
 	}
-  rpc GetProductsByDeclinationAndReferences (ProductItemsRequest) returns (ProductItemsResponse) {}
+  rpc GetPaginedProductsByDeclination (PaginedProductItemsRequest) returns (PaginedProductItemsResponse) {}
 
-  rpc GetStreamedProductsByDeclinationAndReferences (ProductItemRequest) returns (stream ProductItemResponse) {}
+  rpc GetStreamedProductsByDeclinationAndReferences (StreamedProductItemsRequest) returns (stream ProductItemResponse) {}
 }
