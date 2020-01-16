@@ -22,4 +22,4 @@ services:
 
 volumes:
   grpc-sqldata:
-    external: true
+    external: false

@@ -10,6 +10,7 @@ using Server.Documentation;
 using Server.Grpc;
 using Server.Infrastructure;
 using Server.Infrastructure.Filters;
+using Server.Infrastructure.Migrations;
 using System.Reflection;
 
 namespace Server
@@ -44,13 +45,12 @@ namespace Server
             services.AddSwagger("1.0.0");
             services.AddHealthChecks();
             services.AddDependencies(appSettings);
+            services.AddHostedService<MigratorHostedService>();
         }
 
         public void Configure(IApplicationBuilder app, IMapper mapper)
         {
             mapper.ConfigurationProvider.AssertConfigurationIsValid();
-
-            InitializeDatabase(app);
 
             app.UseDeveloperExceptionPage();
             app.UseSwaggerConfig("1.0.0");
@@ -68,12 +68,6 @@ namespace Server
                 endpoints.MapGrpcService<ProductService>();
                 endpoints.MapHealthChecks("/health");
             });
-        }
-
-        private void InitializeDatabase(IApplicationBuilder app)
-        {
-            using IServiceScope serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope();
-            serviceScope.ServiceProvider.GetRequiredService<ProductContext>().Database.Migrate();
         }
     }
 }
